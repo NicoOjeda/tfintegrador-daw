@@ -1,11 +1,11 @@
-# compiled output
-/dist
-/node_modules
-/build
+node_modules
+dist
+**/dist
+**/node_modules
+**.env
 
-# Logs
 logs
-*.log
+**.log
 npm-debug.log*
 pnpm-debug.log*
 yarn-debug.log*
@@ -23,34 +23,38 @@ lerna-debug.log*
 /.idea
 .project
 .classpath
-.c9/
-*.launch
+**.launch
 .settings/
-*.sublime-workspace
 
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+**/tmp
+**/out-tsc
+**/bazel-out
 
-# dotenv environment variable files
-.env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
+.idea/
+.project
+.classpath
+.c9/
+**.launch
+.settings/
+**.sublime-workspace
 
-# temp directory
-.temp
-.tmp
+**.vscode/*
+**!.vscode/settings.json
+**!.vscode/tasks.json
+**!.vscode/launch.json
+**!.vscode/extensions.json
+**.history/*
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
+**/.angular/cache
+**.sass-cache/
+**/connect.lock
+**/coverage
+**/libpeerconnection.log
+**testem.log
+**/typings
 
-# Diagnostic reports (https://nodejs.org/api/report.html)
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+**.DS_Store
+**Thumbs.db
+
+**/documentation
+.vscode

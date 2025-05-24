@@ -1,0 +1,12 @@
+// http://localhost:3000/api/v1/encuestas -> ruta de encuestas - backend
+// http://localhost:4200/ - frontend
+
+// para arrancar el backend ir a la carpeta backend con comando -> cd backend y ejecutar el comando npm run start:dev
+// para arrancar el frontend ir a la carpeta frontend con comando -> cd frontend y ejecutar el comando npm start y ir a la url http://localhost:4200
+// en 2 terminales deferentes !!!
+
+// cada carpeta tiene su propio compodoc!!
+// npm run compodoc -> para ver la documentacion con url que se genera tanto backend como frontend
+
+// para generar componentes en frontend:
+// ir a la carpeta components y con comando -> ng generate component nombreDeComponente --skip-tests
