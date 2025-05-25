@@ -75,13 +75,6 @@ Cada carpeta tiene su propia documentación generada con Compodoc.
   ```
   Acceder a: [http://localhost:8081/](http://localhost:8081/)
 
-## Generar componentes en frontend
-
-```bash
-cd frontend/src/app/components
-ng generate component nombreDeComponente --skip-tests
-```
-
 ---
 
-_Agrega aquí autores, licencia, o cualquier otra sección que desees._
+_Autores: ..._
