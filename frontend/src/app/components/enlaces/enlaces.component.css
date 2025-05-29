@@ -1,0 +1,46 @@
+
+#contenedor-enlaces {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  overflow: auto;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+
+
+.titulo-seccion {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+
+:host ::ng-deep .p-card {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #eeebeb; 
+  border-radius: 10px;
+}
+
+.enlace-card {
+  background-color: #f3f5f8; 
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border: none;
+}
+
+
+.respuesta {
+  border-left: 6px solid #42a5f5;
+}
+
+.resultados {
+  border-left: 6px solid #66bb6a;
+}

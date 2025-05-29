@@ -1,0 +1,86 @@
+.landing {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background-image: url("../../../assets/encuesta2.jpg");
+
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5); // oscurece la imagen
+    z-index: 1;
+  }
+
+  .contenido {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 20px;
+  perspective: 800px;
+  transform-style: preserve-3d;
+  animation: fadeInUp 1.5s ease-out;
+
+  h1 {
+    font-size: 3.2rem;
+    margin-bottom: 1.2rem;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+    transform: rotateX(10deg);
+    color: #ffffff;
+  }
+
+  .subtitulo {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #e0e0e0;
+    background-color: rgba(0, 0, 0, 0.35);
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transform: rotateX(5deg);
+  }
+
+  .btn-nueva-encuesta {
+    background: linear-gradient(135deg, #0099ff, #0066cc);
+    color: white;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      background: linear-gradient(135deg, #007acc, #004d99);
+      transform: scale(1.07);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+// Animación suave al aparecer
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+  }
+

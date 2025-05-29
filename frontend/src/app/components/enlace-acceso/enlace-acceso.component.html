@@ -1,0 +1,16 @@
+<app-header></app-header>
+
+<p>ID: {{ id }}</p>
+<p>Código: {{ codigo }}</p>
+<p>Tipo: {{ tipo }}</p>
+
+<p-toast></p-toast>
+
+<div *ngIf="encuestaCargada; else errorTemplate">
+  <h2>{{ encuesta?.nombre }}</h2>
+</div>
+
+<ng-template #errorTemplate>
+  <p>No se pudo cargar la encuesta</p>
+</ng-template>
+

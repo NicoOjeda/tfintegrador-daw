@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { CreateEncueastaDto } from '../interfaces/create-encuesta.dto';
+import { CreateEncuestaDto } from '../interfaces/create-encuesta.dto';
 import { Observable } from 'rxjs';
 import { CodigoTipoEnum } from '../enums/codigo-tipo.enum';
 import { EncuestaDto } from '../interfaces/encuesta.dto';
@@ -9,7 +9,7 @@ import { EncuestaDto } from '../interfaces/encuesta.dto';
 export class EncuestasService {
   private httpClient = inject(HttpClient);
 
-  crearEncuesta(dto: CreateEncueastaDto): Observable<{
+  crearEncuesta(dto: CreateEncuestaDto): Observable<{
     id: number;
     codigoRespuesta: string;
     codigoResultados: string;
@@ -18,7 +18,7 @@ export class EncuestasService {
       id: number;
       codigoRespuesta: string;
       codigoResultados: string;
-    }>('/api/encuestas', dto);
+    }>('/api/v1/encuestas', dto);
   }
 
   traerEncuesta(
@@ -27,7 +27,7 @@ export class EncuestasService {
     tipo: CodigoTipoEnum,
   ): Observable<EncuestaDto> {
     return this.httpClient.get<EncuestaDto>(
-      'api/encuestas/' + idEncuesta + '?codigo=' + codigo + '&tipo=' + tipo,
+      'api/v1/encuestas/' + idEncuesta + '?codigo=' + codigo + '&tipo=' + tipo,
     );
   }
 
