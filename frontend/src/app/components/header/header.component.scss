@@ -1,0 +1,29 @@
+.main-header {
+  background-color: #1e3a5f;
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+
+    li a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+
+      &:hover {
+        color: #a9c4de;
+      }
+    }
+  }
+}
