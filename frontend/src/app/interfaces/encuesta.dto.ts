@@ -3,6 +3,9 @@ import { PreguntaDto } from "./pregunta.dto";
 export interface EncuestaDto {
   id: number;
   nombre: string;
-  pregunta: PreguntaDto[];
+  preguntas: PreguntaDto[];
   codigoRespuesta: string;
 }
+
+
+
