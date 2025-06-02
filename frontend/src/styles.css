@@ -1,13 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'primeicons/primeicons.css';
 
-body {
+html, body {
   margin: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-}
-
-html {
-    font-size: 1.25rem;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-size: 1.25rem;
 }

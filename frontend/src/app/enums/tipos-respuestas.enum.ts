@@ -4,20 +4,17 @@ export enum TiposRespuestaEnum {
   OPCION_MULTIPLE_SELECCION_MULTIPLE = 'OPCION_MULTIPLE_SELECCION_MULTIPLE',
 }
 
-export const tiposPreguntaPrecentacion: {
+export const tiposPreguntaPresentacion: {
   tipo: TiposRespuestaEnum;
-  descripcion: string;
+  presentacion: string;
 }[] = [
-  {
-    tipo: TiposRespuestaEnum.ABIERTA,
-    descripcion: 'Pregunta abierta',
-  },
+  { tipo: TiposRespuestaEnum.ABIERTA, presentacion: 'Abierta' },
   {
     tipo: TiposRespuestaEnum.OPCION_MULTIPLE_SELECCION_SIMPLE,
-    descripcion: 'Selección simple',
+    presentacion: 'Selección Simple',
   },
   {
     tipo: TiposRespuestaEnum.OPCION_MULTIPLE_SELECCION_MULTIPLE,
-    descripcion: 'Selección múltiple',
+    presentacion: 'Selección Múltiple',
   },
 ];

@@ -1,16 +1,26 @@
 import { Routes } from '@angular/router';
-import { ComienzoComponent } from './components/comienzo/comienzo.component';
-import { CrearencuestaComponent } from './components/crearencuesta/crearencuesta.component';
+import { CreacionEncuestaComponent } from './components/creacion-encuesta/crearencuesta.component';
+import { EnlacesComponent } from './components/enlaces/enlaces.component';
+import { PortadaComponent } from './components/portada/portada.component';
+import { EnlaceAccesoComponent } from './components/enlace-acceso/enlace-acceso.component';
 
 import {GestionarComponent} from './components/gestionar/gestionar.component'
 export const routes: Routes = [
   {
     path: '',
-    component: ComienzoComponent,
+    component: PortadaComponent,
   },
   {
-    path: 'crear-encuesta',
-    component: CrearencuestaComponent
+    path: 'crearcion',
+    component: CreacionEncuestaComponent,
+  },
+  {
+    path: 'enlaces',
+    component: EnlacesComponent,
+  },
+  {
+    path: 'encuestas-app/:id',
+    component: EnlaceAccesoComponent,
   },
   {
     path: 'maria',
