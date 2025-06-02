@@ -6,7 +6,18 @@
 // en 2 terminales deferentes !!!
 
 // cada carpeta tiene su propio compodoc!!
-// npm run compodoc -> para ver la documentacion con url que se genera tanto backend como frontend
+// npm run compodoc -> para ver la documentacion con url que se genera tanto   como frontend
 
 // para generar componentes en frontend:
 // ir a la carpeta components y con comando -> ng generate component nombreDeComponente --skip-tests
+
+// Como usar git? 
+// git branch => ver todas las ramas
+// git branch nombre-de-la-rama-nueva => para crear una nueva rama
+// git checkout nombre-de-la-rama-nueva => ir a la nueva rama creada
+
+// git pull => para actualizar y taer cambios 
+
+// git add . => para agregar cambios a git 
+// git commit -m 'comentario de lo realizado'
+// git push => para enviar cambios

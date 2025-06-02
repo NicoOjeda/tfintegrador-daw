@@ -27,7 +27,7 @@ export class EncuestasService {
     tipo: CodigoTipoEnum,
   ): Observable<EncuestaDto> {
     return this.httpClient.get<EncuestaDto>(
-      'api/encuestas/' + idEncuesta + '?codigo=' + codigo + '&tipo=' + tipo,
+      'api/v1/encuestas/' + idEncuesta + '?codigo=' + codigo + '&tipo=' + tipo,
     );
   }
 
