@@ -1,10 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'primeicons/primeicons.css';
+@import "primeicons/primeicons.css";
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   font-size: 1.25rem;
+}
+body {
+  background: linear-gradient(
+    45deg,
+    #92383b,
+    #59f7ba,
+    #fad0c4,
+    #55290c,
+    #fbc7a4,
+    #a18cd1,
+    #fbc7a4
+  );
+  background-size: 1400% 1400%;
+  animation: gradientShift 15s ease infinite;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Animación para que el degradado se mueva */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

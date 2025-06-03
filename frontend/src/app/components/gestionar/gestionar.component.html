@@ -8,6 +8,13 @@
       <div class="acciones-navbar">
 
         <p-button
+          label="Descargar CSV"
+          icon="pi pi-download"
+          (onClick)="descargarCsv()"
+          styleClass="p-button-success p-mr-2"
+        ></p-button>
+
+        <p-button
           icon="pi pi-angle-right"
           label="Crear Encuesta Nueva"
           [routerLink]="['/']"
@@ -23,7 +30,10 @@
     Todavía no hay respuestas
   </div>
   <p-accordion *ngIf="!sinRespuestas">
-    <p-accordionTab *ngFor="let pregunta of respuestasAgrupadas" [header]="pregunta.texto">
+    <p-accordionTab
+      *ngFor="let pregunta of respuestasAgrupadas"
+      [header]="pregunta.texto"
+    >
       <div *ngIf="pregunta.tipo === 'ABIERTA'">
         <ul>
           <li *ngFor="let opcion of pregunta.opciones">
@@ -34,12 +44,10 @@
       <div *ngIf="pregunta.tipo !== 'ABIERTA'">
         <ul>
           <li *ngFor="let respuesta of pregunta.respuestasUnicas">
-            {{ respuesta.texto }} - Cantidad: {{ respuesta.cantidad }}
+            {{ respuesta.texto }} : {{ respuesta.cantidad }} votos
           </li>
         </ul>
       </div>
     </p-accordionTab>
   </p-accordion>
-
 </div>
-

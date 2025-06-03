@@ -56,7 +56,6 @@ export class EnlaceAccesoComponent implements OnInit {
       .traerEncuesta(this.id, this.codigo, this.tipo)
       .subscribe({
         next: (res: EncuestaDto) => {
-          console.log('Encuesta obtenida:', res.nombre);
           this.encuesta = res;
           this.encuestaCargada = true;
 
@@ -67,7 +66,7 @@ export class EnlaceAccesoComponent implements OnInit {
       });
   }
 
-   mostrarError(detail: string) {
+  mostrarError(detail: string) {
     this.messageService.add({
       severity: 'error',
       summary: 'Error',
@@ -75,6 +74,4 @@ export class EnlaceAccesoComponent implements OnInit {
       life: 5000,
     });
   }
-
-
 }

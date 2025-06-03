@@ -2,32 +2,62 @@
 <p-toast></p-toast>
 
 <div id="contenedor-enlaces">
-<h2 class="titulo-seccion">🔗 Enlaces generados para la encuesta</h2>
+  <h2 class="titulo-seccion">
+    🔗 "¡Felicidades! Tu encuesta fue creada. Aquí están los enlaces generados
+    para la encuesta."
+  </h2>
 
-<div ngIf="respuestaUrl() && resultadosUrl()" class="p-d-flex p-flex-column p-gap-3 ">
-  <p-card header="📦 Enlace para responder">
-    <div class="p-d-flex p-ai-center p-jc-between p-flex-wrap enlace-card respuesta">
-      <span style="word-break: break-word;">{{ respuestaUrl() }}</span>
-      <p-button 
-        label="Copiar" 
-        icon="pi pi-copy" 
-        class="p-ml-2 p-button-sm" 
-        (onClick)="copiar(respuestaUrl())">
-      </p-button>
-    </div>
-  </p-card>
+  <div *ngIf="respuestaUrl() && resultadosUrl()" class="contenedor-tarjetas">
+    <!-- 🟦 TARJETA RESPUESTA -->
+    <p-card
+      header="📥 Enlace para RESPONDER la encuesta"
+      styleClass="custom-card respuesta-card"
+    >
+      <div class="enlace-container">
+        <div class="qr-info">
+          <qrcode
+            [qrdata]="respuestaUrl()"
+            [width]="160"
+            [errorCorrectionLevel]="'M'"
+          ></qrcode>
+        </div>
+        <div class="texto-boton">
+          <span class="enlace-texto">{{ respuestaUrl() }}</span>
+          <p-button
+            label="Copiar enlace"
+            icon="pi pi-copy"
+            class="p-button-lg p-button-info copiar-btn"
+            (onClick)="copiar(respuestaUrl())"
+          >
+          </p-button>
+        </div>
+      </div>
+    </p-card>
 
-  <p-card header="📊 Enlace para ver resultados">
-    <div class="p-d-flex p-ai-center p-jc-between p-flex-wrap enlace-card resultados">
-      <span style="word-break: break-word;">{{ resultadosUrl() }}</span>
-      <p-button 
-        label="Copiar" 
-        icon="pi pi-copy" 
-        class="p-ml-2 p-button-sm" 
-        (onClick)="copiar(resultadosUrl())">
-      </p-button>
-    </div>
-  </p-card>
-</div></div>
-
-
+    <!-- 🟪 TARJETA RESULTADOS -->
+    <p-card
+      header="📊 Enlace para VER RESULTADOS"
+      styleClass="custom-card resultados-card"
+    >
+      <div class="enlace-container">
+        <div class="qr-info">
+          <qrcode
+            [qrdata]="resultadosUrl()"
+            [width]="160"
+            [errorCorrectionLevel]="'M'"
+          ></qrcode>
+        </div>
+        <div class="texto-boton">
+          <span class="enlace-texto">{{ resultadosUrl() }}</span>
+          <p-button
+            label="Copiar enlace"
+            icon="pi pi-copy"
+            class="p-button-lg p-button-success copiar-btn"
+            (onClick)="copiar(resultadosUrl())"
+          >
+          </p-button>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>

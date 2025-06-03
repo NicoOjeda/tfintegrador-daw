@@ -5,6 +5,7 @@ export interface EncuestaDto {
   nombre: string;
   preguntas: PreguntaDto[];
   codigoRespuesta: string;
+  codigoResultados: string
 }
 
 
