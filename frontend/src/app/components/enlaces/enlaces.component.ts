@@ -5,10 +5,11 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { CardModule } from 'primeng/card';
 import { HeaderComponent } from '../header/header.component';
+import { QRCodeComponent } from 'angularx-qrcode'; 
 
 @Component({
   selector: 'app-enclace',
-  imports: [ToastModule, ButtonModule, CardModule, HeaderComponent],
+  imports: [ToastModule, ButtonModule, CardModule, HeaderComponent, QRCodeComponent],
   templateUrl: './enlaces.component.html',
   styleUrl: './enlaces.component.css',
   providers: [MessageService]
@@ -25,8 +26,6 @@ export class EnlacesComponent {
     const state = this.router.getCurrentNavigation()?.extras.state;
 
     if (state?.['id'] && state?.['codigoRespuesta'] && state?.['codigoResultados']) {
-      // ver esta parte de generación de enlaces !!!!
-      //const baseUrl = 'http://localhost:3000/api/v1/encuestas'; para backend
       const baseUrl = 'http://localhost:4200/encuestas-app';
       this.respuestaUrl.set(`${baseUrl}/${state['id']}?codigo=${state['codigoRespuesta']}&tipo=RESPUESTA`);
       this.resultadosUrl.set(`${baseUrl}/${state['id']}?codigo=${state['codigoResultados']}&tipo=RESULTADOS`);

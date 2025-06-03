@@ -7,10 +7,12 @@ import { HeaderComponent } from '../header/header.component';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
+import { TiposRespuestaEnum } from '../../enums/tipos-respuestas.enum';
+import { CreateRespuestasDTO } from '../../interfaces/create-respuestas.dto';
 
 @Component({
   selector: 'app-enlace-acceso',
-  imports: [HeaderComponent,  ToastModule, CommonModule],
+  imports: [HeaderComponent, ToastModule, CommonModule],
   templateUrl: './enlace-acceso.component.html',
   styleUrl: './enlace-acceso.component.css',
   providers: [MessageService],
@@ -54,6 +56,9 @@ export class EnlaceAccesoComponent implements OnInit {
           console.log('Encuesta obtenida:', res.nombre);
           this.encuesta = res;
           this.encuestaCargada = true;
+
+          // if (this.tipo === CodigoTipoEnum.RESPUESTA) {
+          
         },
         error: (err) => {
           this.mostrarError('Error al obtener la encuesta del servidor');
@@ -61,7 +66,7 @@ export class EnlaceAccesoComponent implements OnInit {
       });
   }
 
-   mostrarError(detail: string) {
+  mostrarError(detail: string) {
     this.messageService.add({
       severity: 'error',
       summary: 'Error',
@@ -69,6 +74,4 @@ export class EnlaceAccesoComponent implements OnInit {
       life: 5000,
     });
   }
-
-
 }

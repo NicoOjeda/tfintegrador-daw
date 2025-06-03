@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Encuesta } from '../entities/encuesta.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { CreateEncuestaDTO } from '../dtos/create-encuesta.dto';
 import { v4 } from 'uuid';
 import { CodigoTipoEnum } from '../enums/codigo-tipo.enum';
@@ -21,6 +21,7 @@ export class EncuestasService {
     private respuestaAbiertaRepository: Repository<RespuestaAbierta>,
     @InjectRepository(RespuestaOpcion)
     private respuestaOpcionRepository: Repository<RespuestaOpcion>,
+    private readonly dataSource: DataSource,
   ) {}
 
   async createEncuesta(dto: CreateEncuestaDTO): Promise<{
@@ -72,40 +73,42 @@ export class EncuestasService {
       throw new BadRequestException('Datos de encuesta no válidos');
     }
 
-    return (codigoTipo === CodigoTipoEnum.RESULTADOS) ? this.obtenerResultadosEncuesta(encuesta) : encuesta;
+    return codigoTipo === CodigoTipoEnum.RESULTADOS
+      ? this.obtenerResultadosEncuesta(encuesta)
+      : encuesta;
   }
 
-  private async obtenerResultadosEncuesta(encuesta: Encuesta) : Promise<Encuesta> {
+  private async obtenerResultadosEncuesta(
+    encuesta: Encuesta,
+  ): Promise<Encuesta> {
     for (const pregunta of encuesta.preguntas) {
-        if (pregunta.tipo === 'ABIERTA') {
-          const respuestasAbiertas = await this.respuestaAbiertaRepository.find(
-            {
-              where: { pregunta: { id: pregunta.id } },
-            },
-          );
-          pregunta.opciones = respuestasAbiertas.map((respuesta) => ({
-            id: respuesta.id, 
-            texto: respuesta.texto, 
-            numero: 1, 
-          }));
-        } else if (
-          pregunta.tipo === 'OPCION_MULTIPLE_SELECCION_SIMPLE' ||
-          pregunta.tipo === 'OPCION_MULTIPLE_SELECCION_MULTIPLE'
-        ) {
-          const respuestasOpciones = await this.respuestaOpcionRepository.find({
-            where: { opcion: { pregunta: { id: pregunta.id } } },
-            relations: ['opcion'],
-          });
-          pregunta.opciones = respuestasOpciones.map((respuesta) => ({
-            id: respuesta.opcion.id,
-            texto: respuesta.opcion.texto,
-            numero: respuesta.opcion.numero,
-            seleccionada: true,
-          }));
-        }
+      if (pregunta.tipo === 'ABIERTA') {
+        const respuestasAbiertas = await this.respuestaAbiertaRepository.find({
+          where: { pregunta: { id: pregunta.id } },
+        });
+        pregunta.opciones = respuestasAbiertas.map((respuesta) => ({
+          id: respuesta.id,
+          texto: respuesta.texto,
+          numero: 1,
+        }));
+      } else if (
+        pregunta.tipo === 'OPCION_MULTIPLE_SELECCION_SIMPLE' ||
+        pregunta.tipo === 'OPCION_MULTIPLE_SELECCION_MULTIPLE'
+      ) {
+        const respuestasOpciones = await this.respuestaOpcionRepository.find({
+          where: { opcion: { pregunta: { id: pregunta.id } } },
+          relations: ['opcion'],
+        });
+        pregunta.opciones = respuestasOpciones.map((respuesta) => ({
+          id: respuesta.opcion.id,
+          texto: respuesta.opcion.texto,
+          numero: respuesta.opcion.numero,
+          seleccionada: true,
+        }));
       }
+    }
 
-      return encuesta;
+    return encuesta;
   }
 
   async guardarRespuestas(
@@ -162,4 +165,140 @@ export class EncuestasService {
       return false;
     }
   }
+
+  // Exportar respuestas a CSV
+
+  async exportarRespuestasCsv(codigoResultado: string): Promise<string> {
+    const abiertas = await this.obtenerRespuestasAbiertas(codigoResultado);
+    const opciones = await this.obtenerRespuestasOpciones(codigoResultado);
+
+    if (abiertas.length === 0 && opciones.length === 0) {
+      return 'La encuesta aún no tiene respuestas registradas.';
+    }
+
+    const nombreEncuesta =
+      abiertas[0]?.encuesta || opciones[0]?.encuesta || 'Encuesta sin nombre';
+
+    const lineas: string[] = [];
+    lineas.push(`Encuesta: ${nombreEncuesta}`);
+    lineas.push('');
+
+    const preguntasAbiertas = abiertas.length
+      ? this.agruparRespuestasAbiertas(abiertas)
+      : new Map();
+    const preguntasOpciones = opciones.length
+      ? this.agruparRespuestasOpciones(opciones)
+      : new Map();
+
+    // ordenar preguntas
+    const todas = [
+      ...preguntasAbiertas.entries(),
+      ...preguntasOpciones.entries(),
+    ].sort(([aNum], [bNum]) => aNum - bNum);
+
+    for (const [numero, info] of todas) {
+      lineas.push(`${numero}. ${info.texto}`);
+
+      if ('respuestas' in info) {
+        info.respuestas.forEach((r: Respuesta) => lineas.push(`- ${r}`));
+      } else if ('conteo' in info) {
+        const conteoEntries = Object.entries(info.conteo) as [string, number][];
+        conteoEntries
+          .sort((a, b) => b[1] - a[1])
+          .forEach(([respuesta, cantidad]) => {
+            lineas.push(`- ${respuesta} : ${cantidad} votos`);
+          });
+      }
+
+      lineas.push('');
+    }
+
+    return lineas.join('\n');
+  }
+
+  private async obtenerRespuestasAbiertas(codigo: string) {
+    return this.dataSource.query(
+      `
+    SELECT
+      e.nombre AS encuesta,
+      p.numero AS numero_pregunta,
+      p.texto AS texto_pregunta,
+      ra.texto AS respuesta
+    FROM respuestas r
+    JOIN encuestas e ON r.id_encuesta = e.id
+    JOIN respuestas_abiertas ra ON ra.id_respuesta = r.id
+    JOIN preguntas p ON p.id = ra.id_pregunta
+    WHERE e.codigo_resultado = $1
+  `,
+      [codigo],
+    );
+  }
+
+  private async obtenerRespuestasOpciones(codigoResultado: string) {
+    return this.dataSource.query(
+      `
+    SELECT
+      e.nombre AS encuesta,
+      p.numero AS numero_pregunta,
+      p.texto AS texto_pregunta,
+      o.texto AS respuesta
+    FROM respuestas r
+    JOIN encuestas e ON r.id_encuesta = e.id
+    JOIN respuestas_opciones ro ON ro.id_respuesta = r.id
+    JOIN opciones o ON o.id = ro.id_opcion
+    JOIN preguntas p ON o.id_pregunta = p.id
+    WHERE e.codigo_resultado = $1
+  `,
+      [codigoResultado],
+    );
+  }
+
+  private agruparRespuestasAbiertas(
+    datos: Pregunta[],
+  ): Map<number, { texto: string; respuestas: string[] }> {
+    const resultado = new Map();
+
+    datos.forEach(({ numero_pregunta, texto_pregunta, respuesta }) => {
+      const numero = numero_pregunta + 1;
+
+      if (!resultado.has(numero)) {
+        resultado.set(numero, {
+          texto: texto_pregunta,
+          respuestas: [],
+        });
+      }
+
+      resultado.get(numero)!.respuestas.push(respuesta);
+    });
+
+    return resultado;
+  }
+
+  private agruparRespuestasOpciones(
+    datos: Pregunta[],
+  ): Map<number, { texto: string; conteo: Record<string, number> }> {
+    const resultado = new Map();
+
+    datos.forEach(({ numero_pregunta, texto_pregunta, respuesta }) => {
+      const numero = numero_pregunta + 1;
+
+      if (!resultado.has(numero)) {
+        resultado.set(numero, {
+          texto: texto_pregunta,
+          conteo: {},
+        });
+      }
+
+      const conteo = resultado.get(numero)!.conteo;
+      conteo[respuesta] = (conteo[respuesta] || 0) + 1;
+    });
+
+    return resultado;
+  }
 }
+
+type Pregunta = {
+  numero_pregunta: number;
+  texto_pregunta: string;
+  respuesta: string;
+};

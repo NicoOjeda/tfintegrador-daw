@@ -1,9 +1,20 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Res } from '@nestjs/common';
 import { CreateEncuestaDTO } from '../dtos/create-encuesta.dto';
 import { ObtenerEncuestaDto } from '../dtos/obtener-encuesta.dto';
 import { CreateRespuestasDTO } from '../dtos/create-respuesta.dto';
 import { EncuestasService } from '../services/encuestas.service';
 import { Encuesta } from '../entities/encuesta.entity';
+import { Response } from 'express';
+import { CodigoTipoEnum } from '../enums/codigo-tipo.enum';
+
+type FilaCSV = {
+  encuesta: string;
+  numero_pregunta: number;
+  texto_pregunta: string;
+  tipo_pregunta: string;
+  texto_opcion: string;
+  texto_respuesta_abierta: string;
+};
 
 @Controller('/encuestas')
 export class EncuestasController {
@@ -38,7 +49,27 @@ export class EncuestasController {
   @Post('/responder/:codigoRespuesta')
   async responderEncuesta(
     @Param('codigoRespuesta') codigoRespuesta: string,
-    @Body() dto: CreateRespuestasDTO): Promise<boolean> {
+    @Body() dto: CreateRespuestasDTO,
+  ): Promise<boolean> {
     return await this.encuestasService.guardarRespuestas(codigoRespuesta, dto);
+  }
+
+
+  @Get('exportar-csv/:codigoRespuesta')
+async exportarCsv(
+    @Param('codigoRespuesta') codigoRespuesta: string,
+    @Res({ passthrough: false }) res: Response, // ⚠️ ESTA LÍNEA ES LA CLAVE
+  ) {
+    try {
+      const csv = await this.encuestasService.exportarRespuestasCsv(codigoRespuesta);
+
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', 'attachment; filename="respuestas.csv"');
+      res.status(200).send(csv); 
+
+    } catch (error) {
+      console.error('💥 Error al exportar CSV:', error);
+      res.status(500).send('Error al generar el archivo CSV');
+    }
   }
 }

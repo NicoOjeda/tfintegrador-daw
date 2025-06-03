@@ -7,6 +7,7 @@
 <div ngIf="respuestaUrl() && resultadosUrl()" class="p-d-flex p-flex-column p-gap-3 ">
   <p-card header="📦 Enlace para responder">
     <div class="p-d-flex p-ai-center p-jc-between p-flex-wrap enlace-card respuesta">
+      <qrcode [qrdata]="respuestaUrl()" [width]="150"></qrcode>
       <span style="word-break: break-word;">{{ respuestaUrl() }}</span>
       <p-button 
         label="Copiar" 
@@ -19,6 +20,7 @@
 
   <p-card header="📊 Enlace para ver resultados">
     <div class="p-d-flex p-ai-center p-jc-between p-flex-wrap enlace-card resultados">
+      <qrcode [qrdata]="resultadosUrl()" [width]="150"></qrcode>
       <span style="word-break: break-word;">{{ resultadosUrl() }}</span>
       <p-button 
         label="Copiar" 
