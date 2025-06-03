@@ -62,3 +62,11 @@ li {
   font-size: 0.95rem;
   color: #2d3436;
 }
+
+
+.mensaje-vacio {
+  text-align: center;
+  font-weight: bold;
+  color: #5a5a5a;
+  font-size: 1.2rem;
+}

@@ -23,10 +23,6 @@ export const routes: Routes = [
     component: EnlaceAccesoComponent,
   },
   {
-    path: 'maria',
-    component:GestionarComponent,
-  },
-  {
     path: '**',
     redirectTo: '',
   },
