@@ -39,11 +39,19 @@ export class EncuestasController {
     @Param('id') id: number,
     @Query() dto: ObtenerEncuestaDto,
   ): Promise<Encuesta> {
-    return await this.encuestasService.obtenerEncuesta(
+    const encuesta = await this.encuestasService.obtenerEncuesta(
       id,
       dto.codigo,
       dto.tipo,
     );
+
+    return {
+      id: encuesta.id,
+      nombre: encuesta.nombre,
+      codigoRespuesta: encuesta.codigoRespuesta,
+      codigoResultados: encuesta.codigoResultados,
+      preguntas: encuesta.preguntas,
+    };
   }
 
   @Post('/responder/:codigoRespuesta')
@@ -54,21 +62,23 @@ export class EncuestasController {
     return await this.encuestasService.guardarRespuestas(codigoRespuesta, dto);
   }
 
-
   @Get('exportar-csv/:codigoRespuesta')
-async exportarCsv(
+  async exportarCsv(
     @Param('codigoRespuesta') codigoRespuesta: string,
-    @Res({ passthrough: false }) res: Response, // ⚠️ ESTA LÍNEA ES LA CLAVE
+    @Res({ passthrough: false }) res: Response,
   ) {
     try {
-      const csv = await this.encuestasService.exportarRespuestasCsv(codigoRespuesta);
+      const csv =
+        await this.encuestasService.exportarRespuestasCsv(codigoRespuesta);
 
       res.setHeader('Content-Type', 'text/csv');
-      res.setHeader('Content-Disposition', 'attachment; filename="respuestas.csv"');
-      res.status(200).send(csv); 
-
+      res.setHeader(
+        'Content-Disposition',
+        'attachment; filename="respuestas.csv"',
+      );
+      res.status(200).send(csv);
     } catch (error) {
-      console.error('💥 Error al exportar CSV:', error);
+      console.error('Error al exportar CSV:', error);
       res.status(500).send('Error al generar el archivo CSV');
     }
   }

@@ -39,6 +39,12 @@ export class EncuestasService {
     });
   }
 
+  exportarCsvComoArchivo(codigo: string): Observable<Blob> {
+    return this.httpClient.get(`/api/v1/encuestas/exportar-csv/${codigo}`, {
+      responseType: 'blob',
+    });
+  }
+
   guardarRespuestas(
     codigoRespuesta: number,
     dto: CreateRespuestasDTO,

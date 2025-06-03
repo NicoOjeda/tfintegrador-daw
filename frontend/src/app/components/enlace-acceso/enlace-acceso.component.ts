@@ -56,7 +56,6 @@ export class EnlaceAccesoComponent implements OnInit {
       .traerEncuesta(this.id, this.codigo, this.tipo)
       .subscribe({
         next: (res: EncuestaDto) => {
-          console.log('Encuesta obtenida:', res.nombre);
           this.encuesta = res;
           this.encuestaCargada = true;
 
