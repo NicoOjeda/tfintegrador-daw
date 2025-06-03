@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, Input } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { CommonModule } from '@angular/common';
@@ -39,51 +39,45 @@ export class GestionarComponent implements OnInit {
   respuestasAgrupadas: any[] = [];
   private encuestasService: EncuestasService = inject(EncuestasService);
 
+   sinRespuestas = false;
+
   constructor() {
   }
+   @Input() encuesta!: EncuestaDto;
 
-  ngOnInit(): void {
-  this.encuestasService.traerEncuesta(
-    1,
-    '47d8d483-1562-4cc6-9e1e-8a6a7a5660c1',
-    CodigoTipoEnum.RESULTADOS
-  ).subscribe({
-    next: (res: EncuestaDto) => {
-      this.preguntas = res.preguntas;
-      this.nombreEncuesta.set(res.nombre);
-
-      res.preguntas.forEach(pregunta => {
-        this.nombrePregunta.set(pregunta.texto);
-      });
-
-      this.respuestasAgrupadas = this.preguntas.map(pregunta => {
-        const conteo: { [key: string]: number } = {};
-
-        pregunta.opciones?.forEach(opcion => {
-          const texto = opcion.texto.trim();
-          conteo[texto] = (conteo[texto] || 0) + 1;
-        });
-
-        const respuestasUnicas = Object.entries(conteo).map(([texto, cantidad]) => ({
-          texto,
-          cantidad
-        }));
-
-        return {
-          ...pregunta,
-          respuestasUnicas
-        };
-      });
-    },
-    error: err => {
-      console.error('Error al traer la encuesta:', err);
-    }
-  });
-}
-
-
-  copiarEnlace() {
-    navigator.clipboard.writeText(this.enlace);
+ngOnInit(): void {
+  if (!this.encuesta) {
+    console.error('No se recibió la encuesta');
+    return;
   }
-}
 
+  this.preguntas = this.encuesta.preguntas;
+  this.nombreEncuesta.set(this.encuesta.nombre);
+
+  this.encuesta.preguntas.forEach(pregunta => {
+    this.nombrePregunta.set(pregunta.texto);
+  });
+
+  this.respuestasAgrupadas = this.preguntas.map(pregunta => {
+    const conteo: { [key: string]: number } = {};
+
+    pregunta.opciones?.forEach(opcion => {
+      const texto = opcion.texto.trim();
+      conteo[texto] = (conteo[texto] || 0) + 1;
+    });
+
+
+    const respuestasUnicas = Object.entries(conteo).map(([texto, cantidad]) => ({
+      texto,
+      cantidad
+    }));
+
+    return {
+      ...pregunta,
+      respuestasUnicas
+    };
+  });
+this.sinRespuestas = this.respuestasAgrupadas.every(
+      (p) => p.respuestasUnicas.length === 0
+    );
+}};
