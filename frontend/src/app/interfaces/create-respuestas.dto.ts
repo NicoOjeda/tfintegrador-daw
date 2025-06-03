@@ -1,6 +1,5 @@
 import { TiposRespuestaEnum } from "../enums/tipos-respuestas.enum";
 
-
 export interface RespuestaAbiertaDto {
   valor: string;
 }

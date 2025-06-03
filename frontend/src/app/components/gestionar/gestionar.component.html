@@ -1,0 +1,45 @@
+<div class="menu">
+  <p-menubar>
+    <ng-template pTemplate="start">
+      <span class="titulo">Nombre de encuesta: {{ nombreEncuesta() }}</span>
+    </ng-template>
+
+    <ng-template pTemplate="end">
+      <div class="acciones-navbar">
+
+        <p-button
+          icon="pi pi-angle-right"
+          label="Crear Encuesta Nueva"
+          [routerLink]="['/']"
+          styleClass="p-button-secondary p-ml-2"
+        ></p-button>
+      </div>
+    </ng-template>
+  </p-menubar>
+</div>
+
+<div class="contenedor-preguntas">
+  <div *ngIf="sinRespuestas" class="mensaje-vacio">
+    Todavía no hay respuestas
+  </div>
+  <p-accordion *ngIf="!sinRespuestas">
+    <p-accordionTab *ngFor="let pregunta of respuestasAgrupadas" [header]="pregunta.texto">
+      <div *ngIf="pregunta.tipo === 'ABIERTA'">
+        <ul>
+          <li *ngFor="let opcion of pregunta.opciones">
+            {{ opcion.texto }}
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="pregunta.tipo !== 'ABIERTA'">
+        <ul>
+          <li *ngFor="let respuesta of pregunta.respuestasUnicas">
+            {{ respuesta.texto }} - Cantidad: {{ respuesta.cantidad }}
+          </li>
+        </ul>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+
+</div>
+

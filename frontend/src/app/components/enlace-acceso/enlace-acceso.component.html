@@ -1,16 +1,14 @@
 <app-header></app-header>
+<div *ngIf="encuestaCargada">
 
-<p>ID: {{ id }}</p>
-<p>Código: {{ codigo }}</p>
-<p>Tipo: {{ tipo }}</p>
+  <!-- Nico aca tienes que poner el componente de RESPUESTA
+  <app-responder-encuesta
+    *ngIf="tipo === 'RESPUESTA'"
+    [encuesta]="encuesta"
+  ></app-responder-encuesta>-->
 
-<p-toast></p-toast>
-
-<div *ngIf="encuestaCargada; else errorTemplate">
-  <h2>{{ encuesta?.nombre }}</h2>
+<app-gestionar
+  *ngIf="tipo === CodigoTipoEnum.RESULTADOS && encuesta"
+  [encuesta]="encuesta">
+</app-gestionar>
 </div>
-
-<ng-template #errorTemplate>
-  <p>No se pudo cargar la encuesta</p>
-</ng-template>
-

@@ -4,6 +4,7 @@ import { EnlacesComponent } from './components/enlaces/enlaces.component';
 import { PortadaComponent } from './components/portada/portada.component';
 import { EnlaceAccesoComponent } from './components/enlace-acceso/enlace-acceso.component';
 
+import {GestionarComponent} from './components/gestionar/gestionar.component'
 export const routes: Routes = [
   {
     path: '',
