@@ -20,6 +20,15 @@
           [routerLink]="['/']"
           styleClass="p-button-secondary p-ml-2"
         ></p-button>
+
+        <p-button
+            label="Desactivar Encuesta"
+            icon="pi pi-ban"
+            styleClass="p-button-danger p-ml-2"
+            (onClick)="deshabilitarEncuesta()"
+            [disabled]="!encuesta.deshabilitar"
+        ></p-button>
+
       </div>
     </ng-template>
   </p-menubar>

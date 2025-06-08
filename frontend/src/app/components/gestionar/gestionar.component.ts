@@ -96,4 +96,20 @@ export class GestionarComponent implements OnInit {
       },
     });
   }
+
+
+  deshabilitarEncuesta() {
+  if (!this.encuesta?.id) return;
+
+  this.encuestasService.deshabilitarEncuesta(this.encuesta.id).subscribe({
+    next: () => {
+      this.encuesta.deshabilitar = false;
+      console.log()
+      alert('La encuesta fue deshabilitada con éxito.');
+    },
+    error: () => {
+      alert('Ocurrió un error al deshabilitar la encuesta.');
+    }
+  });
+}
 }

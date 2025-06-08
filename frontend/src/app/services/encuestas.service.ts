@@ -55,6 +55,11 @@ export class EncuestasService {
     );
   }
 
+
+   deshabilitarEncuesta(id: number) {
+  return this.httpClient.put(`/api/v1/encuestas/deshabilitar/${id}`, {});
+}
+
   /* Ejemplo completo de lo que el frontend enviaría:
 
   const payload: CreateRespuestasDTO = {
