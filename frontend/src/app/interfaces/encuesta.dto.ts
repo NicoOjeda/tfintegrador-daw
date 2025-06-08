@@ -6,6 +6,7 @@ export interface EncuestaDto {
   preguntas: PreguntaDto[];
   codigoRespuesta: string;
   codigoResultados: string
+  deshabilitar: boolean
 }
 
 

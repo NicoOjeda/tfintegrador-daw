@@ -24,6 +24,7 @@ export class EncuestasService {
     private readonly dataSource: DataSource,
   ) {}
 
+
   async createEncuesta(dto: CreateEncuestaDTO): Promise<{
     id: number;
     codigoRespuesta: string;
@@ -71,6 +72,10 @@ export class EncuestasService {
 
     if (!encuesta) {
       throw new BadRequestException('Datos de encuesta no válidos');
+    }
+
+    if (codigoTipo === CodigoTipoEnum.RESPUESTA && !encuesta.deshabilitar) {
+      throw new BadRequestException('Esta encuesta ha sido finalizada.');
     }
 
     return codigoTipo === CodigoTipoEnum.RESULTADOS
@@ -166,6 +171,20 @@ export class EncuestasService {
     }
   }
 
+  ///////
+  async deshabilitarEncuesta(id: number): Promise<Encuesta> {
+  const encuesta = await this.encuestasRepository.findOne({ where: { id } });
+
+  if (!encuesta) {
+    throw new Error(`La encuesta con id ${id} no fue encontrada.`);
+  }
+
+  encuesta.deshabilitar = false; 
+
+  return await this.encuestasRepository.save(encuesta);
+}
+
+  ///////
   // Exportar respuestas a CSV
 
   async exportarRespuestasCsv(codigoResultado: string): Promise<string> {

@@ -21,4 +21,7 @@ export class Encuesta {
   @Column({ name: 'codigo_resultado' })
   @Exclude()
   codigoResultados: string;
+
+  @Column({ name: 'deshabilitar', default: true  })
+  deshabilitar: boolean;
 }

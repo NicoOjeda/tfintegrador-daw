@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Res, Put } from '@nestjs/common';
 import { CreateEncuestaDTO } from '../dtos/create-encuesta.dto';
 import { ObtenerEncuestaDto } from '../dtos/obtener-encuesta.dto';
 import { CreateRespuestasDTO } from '../dtos/create-respuesta.dto';
@@ -6,6 +6,8 @@ import { EncuestasService } from '../services/encuestas.service';
 import { Encuesta } from '../entities/encuesta.entity';
 import { Response } from 'express';
 import { CodigoTipoEnum } from '../enums/codigo-tipo.enum';
+
+
 
 type FilaCSV = {
   encuesta: string;
@@ -51,6 +53,7 @@ export class EncuestasController {
       codigoRespuesta: encuesta.codigoRespuesta,
       codigoResultados: encuesta.codigoResultados,
       preguntas: encuesta.preguntas,
+      deshabilitar:encuesta.deshabilitar
     };
   }
 
@@ -82,4 +85,9 @@ export class EncuestasController {
       res.status(500).send('Error al generar el archivo CSV');
     }
   }
+
+  @Put('/deshabilitar/:id')
+  async deshabilitarEncuesta(@Param('id') id: number) {
+  return await this.encuestasService.deshabilitarEncuesta(id);
+}
 }

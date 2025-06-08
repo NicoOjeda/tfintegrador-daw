@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
     HeaderComponent,
     QRCodeComponent,
     CommonModule,
-  ], // Agregar QRCodeComponent
+  ],
   templateUrl: './enlaces.component.html',
   styleUrl: './enlaces.component.css',
   providers: [MessageService],
@@ -28,6 +28,8 @@ export class EnlacesComponent {
   private router: Router = inject(Router);
   respuestaUrl = signal<string>('');
   resultadosUrl = signal<string>('');
+  enlaceRespuesta = "✅ Tu encuesta fue creada con éxito. "
+  enlaceGestion = "🔒 Este es tu enlace de gestión. Es privado, no lo compartas con nadie.  "
 
   constructor() {
     const state = this.router.getCurrentNavigation()?.extras.state;
