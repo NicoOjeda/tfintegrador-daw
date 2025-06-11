@@ -1,0 +1,57 @@
+
+<p-toast></p-toast>
+<div class="menu">
+  <p-menubar>
+    <ng-template pTemplate="start">
+      <span class="titulo">Nombre de encuesta: {{ nombreEncuesta() }}</span>
+    </ng-template>
+  </p-menubar>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="enviar()">
+  <div formArrayName="respuestas">
+    <div *ngFor="let pregunta of encuesta.preguntas; let i = index">
+      <h3>{{ pregunta.texto }}</h3>
+
+      <ng-container *ngIf="pregunta.tipo === tipos.ABIERTA">
+        <input pInputText [formControlName]="i" placeholder="Tu respuesta..." />
+      </ng-container>
+
+      <ng-container
+        *ngIf="pregunta.tipo === tipos.OPCION_MULTIPLE_SELECCION_SIMPLE"
+      >
+        <div *ngFor="let opcion of pregunta.opciones">
+          <p-radioButton
+            [inputId]="'radio' + i + '-' + opcion.id"
+            [value]="opcion.id"
+            [formControlName]="i.toString()"
+            [name]="i.toString()"
+          >
+          </p-radioButton>
+          <label [for]="'radio' + i + '-' + opcion.id">{{
+            opcion.texto
+          }}</label>
+        </div>
+      </ng-container>
+
+      <ng-container
+        *ngIf="pregunta.tipo === tipos.OPCION_MULTIPLE_SELECCION_MULTIPLE"
+      >
+        <div [formGroupName]="i.toString()">
+          <div *ngFor="let opcion of pregunta.opciones; let j = index">
+            <p-checkbox
+              [binary]="true"
+              [formControlName]="j"
+              inputId="check{{ i }}-{{ j }}"
+            ></p-checkbox>
+            <label [for]="'check' + i + '-' + j">{{ opcion.texto }}</label>
+          </div>
+        </div>
+      </ng-container>
+
+      <hr />
+    </div>
+  </div>
+
+  <button pButton type="submit" label="Enviar respuestas"></button>
+</form>
