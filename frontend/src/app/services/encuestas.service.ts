@@ -46,12 +46,12 @@ export class EncuestasService {
   }
 
   guardarRespuestas(
-    codigoRespuesta: number,
+    codigoRespuesta: string,
     dto: CreateRespuestasDTO,
   ): Observable<boolean> {
     return this.httpClient.post<boolean>(
-      '/api/v1/encuestas/responder/' + codigoRespuesta,
-      dto,
+      `/api/v1/encuestas/responder/${codigoRespuesta}`,
+        dto,
     );
   }
 

@@ -8,11 +8,12 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
 import { GestionarComponent } from '../gestionar/gestionar.component';
+import { ResponderComponent } from '../responder/responder.component';
 
 
 @Component({
   selector: 'app-enlace-acceso',
-  imports: [HeaderComponent,  ToastModule, CommonModule, GestionarComponent ],
+  imports: [HeaderComponent,  ToastModule, CommonModule, GestionarComponent,ResponderComponent ],
   templateUrl: './enlace-acceso.component.html',
   styleUrl: './enlace-acceso.component.css',
   providers: [MessageService],

@@ -1,14 +1,14 @@
 <app-header></app-header>
 <div *ngIf="encuestaCargada">
-
-  <!-- Nico aca tienes que poner el componente de RESPUESTA
-  <app-responder-encuesta
-    *ngIf="tipo === 'RESPUESTA'"
+  
+  <app-responder
+    *ngIf="tipo === CodigoTipoEnum.RESPUESTA && encuesta"
     [encuesta]="encuesta"
-  ></app-responder-encuesta>-->
+  ></app-responder>
 
-<app-gestionar
-  *ngIf="tipo === CodigoTipoEnum.RESULTADOS && encuesta"
-  [encuesta]="encuesta">
-</app-gestionar>
+  <app-gestionar
+    *ngIf="tipo === CodigoTipoEnum.RESULTADOS && encuesta"
+    [encuesta]="encuesta"
+  >
+  </app-gestionar>
 </div>
