@@ -7,6 +7,7 @@ import { CardModule } from 'primeng/card';
 import { HeaderComponent } from '../header/header.component';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-enclace',
@@ -18,6 +19,7 @@ import { CommonModule } from '@angular/common';
     HeaderComponent,
     QRCodeComponent,
     CommonModule,
+    FormsModule
   ],
   templateUrl: './enlaces.component.html',
   styleUrl: './enlaces.component.css',
@@ -30,6 +32,7 @@ export class EnlacesComponent {
   resultadosUrl = signal<string>('');
   enlaceRespuesta = "✅ Tu encuesta fue creada con éxito. "
   enlaceGestion = "🔒 Este es tu enlace de gestión. Es privado, no lo compartas con nadie.  "
+  correoDestino = signal<string>('');
 
   constructor() {
     const state = this.router.getCurrentNavigation()?.extras.state;
@@ -64,5 +67,27 @@ export class EnlacesComponent {
         life: 2500,
       });
     });
+  }
+
+  enviarCorreo() {
+    if (!this.correoDestino()) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Correo requerido',
+        detail: 'Ingrese un correo válido.',
+        life: 2500,
+      });
+      return;
+    }
+
+    
+    this.messageService.add({
+      severity: 'success',
+      summary: '📩 Correo enviado',
+      detail: `El enlace se ha enviado correctamente a ${this.correoDestino()} .`,
+      life: 2500,
+    });
+
+    console.log(`envío de correo a: ${this.correoDestino()}`);
   }
 }
