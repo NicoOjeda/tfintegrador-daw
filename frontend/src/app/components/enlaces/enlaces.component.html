@@ -28,8 +28,7 @@
             icon="pi pi-copy"
             class="p-button-lg p-button-info copiar-btn"
             (onClick)="copiar(respuestaUrl())"
-          >
-          </p-button>
+          ></p-button>
         </div>
       </div>
     </p-card>
@@ -54,10 +53,16 @@
             icon="pi pi-copy"
             class="p-button-lg p-button-success copiar-btn"
             (onClick)="copiar(resultadosUrl())"
-          >
-          </p-button>
+          ></p-button>
         </div>
       </div>
     </p-card>
+  </div>
+
+  <!-- OPCIÓN PARA INGRESAR CORREO Y ENVIAR-->
+  <div id="correo-envio" class="correo-envio-container">
+    <h3>📩 Ingresa tu correo y confirma el envío</h3>
+    <input type="email" [(ngModel)]="correoDestino" placeholder="Ingrese su correo" class="correo-input"/>
+    <p-button label="Enviar correo" icon="pi pi-envelope" class="p-button-lg p-button-warning enviar-btn" (onClick)="enviarCorreo()"></p-button>
   </div>
 </div>
